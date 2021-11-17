@@ -1,0 +1,5 @@
+
+## RHOAS Config
+rhoas: 
+   config: rhoas-service-config
+   secret: rhoasall-services

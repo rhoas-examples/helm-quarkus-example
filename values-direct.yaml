@@ -1,0 +1,12 @@
+
+## RHOAS Config
+kafka:
+   bootstrapServerHosts: "PLACEHOLDER"
+   clientId: "PLACEHOLDER"
+   clientSecret: "PLACEHOLDER"
+   oauth-token-url: "https://identity.api.openshift.com/auth/realms/rhoas/protocol/openid-connect/token"
+service-registry: 
+   url: "PLACEHOLDER"
+   clientId: "PLACEHOLDER"
+   clientSecret: "PLACEHOLDER"
+   oauth-token-url: "https://identity.api.openshift.com/auth/realms/rhoas/protocol/openid-connect/token"

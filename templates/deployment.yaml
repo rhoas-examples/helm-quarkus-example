@@ -1,34 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    app.quarkus.io/commit-id: 30bd61d434292e7c104811aaa531b1ebc233ac6e
-    app.quarkus.io/build-timestamp: 2021-11-10 - 16:26:10 +0000
-  labels:
-    app.kubernetes.io/name: rhoas-quarkus-kafka-quickstart
-    app.kubernetes.io/version: 1.0-SNAPSHOT
-  name: rhoas-quarkus-kafka-quickstart
+  name: {{ include "rhoas-kafka-helm.fullname" . }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: rhoas-quarkus-kafka-quickstart
-      app.kubernetes.io/version: 1.0-SNAPSHOT
+      app.kubernetes.io/name:  {{ include "rhoas-kafka-helm.fullname" . }}
   template:
-    metadata:
-      annotations:
-        app.quarkus.io/commit-id: 30bd61d434292e7c104811aaa531b1ebc233ac6e
-        app.quarkus.io/build-timestamp: 2021-11-10 - 16:26:10 +0000
-      labels:
-        app.kubernetes.io/name: rhoas-quarkus-kafka-quickstart
-        app.kubernetes.io/version: 1.0-SNAPSHOT
     spec:
       containers:
         - env:
-            - name: KUBERNETES_NAMESPACE
+            - name: BOOTSTRAP_SERVER
               valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
+                configMapKeyRef:
+                  name: {{ .Values.rhoas.config }}
+                  key: kafka-bootstrap-server-hosts
+            - name: OAUTH_TOKEN_ENDPOINT_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.rhoas.config }}
+                  key: oauth-token-url
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name:  {{ .Values.rhoas.secret }}
+                  key: client-id
+            - name: CLIENT_CLIENT_SECRET  
+              valueFrom:
+                secretKeyRef:
+                  name:  {{ .Values.rhoas.secret }}
+                  key: client-secret
           image: wtrocki/rhoas-quarkus-kafka-quickstart:1.0-SNAPSHOT
           imagePullPolicy: Always
           name: rhoas-quarkus-kafka-quickstart

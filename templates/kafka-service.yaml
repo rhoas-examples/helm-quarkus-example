@@ -1,9 +1,0 @@
-apiVersion: v1
-dataString:
-  bootstrapUrl: test
-  client-id: test
-  client-secret: test
-kind: Secret
-metadata:
-  name: kafka-service
-type: Opaque
